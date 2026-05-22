@@ -1,0 +1,54 @@
+.stats-card {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stats-icon-container {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.stats-data-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+.stats-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.stats-item-desktop {
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+@media (min-width: 640px) {
+  .stats-item-desktop {
+    display: flex;
+  }
+}
+
+.text-orange {
+  color: #f97316;
+}
+
+.text-amber {
+  color: #f59e0b;
+}
+
+.text-brand {
+  color: var(--color-brand-500);
+}

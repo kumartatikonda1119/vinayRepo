@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { MessageCircle, Send, X, Sparkles, RefreshCw } from "lucide-react";
 import api from "../api/axios.js";
 import Markdown from "./Markdown.jsx";
+import "./AIChat.css";
 
 const SAMPLES = [
   "Which day of the week am I most consistent?",
@@ -55,61 +56,55 @@ export default function AIChat() {
     <>
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-20 md:bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-2xl shadow-brand-500/40 flex items-center justify-center hover:scale-105 active:scale-95 transition"
+        className="chat-trigger-btn"
         aria-label="AI Chat"
       >
         {open ? <X size={22} /> : <MessageCircle size={22} />}
       </button>
 
       {open && (
-        <div className="fixed bottom-36 md:bottom-24 right-6 z-40 w-[min(92vw,380px)] h-[min(70vh,520px)] glass-strong rounded-2xl flex flex-col animate-slide-up shadow-2xl overflow-hidden">
-          <div className="px-4 py-3 border-b divider flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-md shadow-brand-500/30">
+        <div className="chat-window glass-strong animate-slide-up">
+          <div className="chat-header divider">
+            <div className="chat-header-logo">
               <Sparkles size={14} />
             </div>
             <div>
-              <div className="text-sm font-medium">Habit Analysis</div>
-              <div className="text-xs text-muted">AI-powered insights</div>
+              <div className="chat-header-title">Habit Analysis</div>
+              <div className="chat-header-subtitle">AI-powered insights</div>
             </div>
           </div>
 
           <div
             ref={scrollRef}
-            className="flex-1 overflow-y-auto px-4 py-3 space-y-3"
+            className="chat-messages"
           >
             {messages.map((m, i) => (
               <div
                 key={i}
-                className={`flex ${
-                  m.role === "user" ? "justify-end" : "justify-start"
-                }`}
+                className={`chat-row ${m.role === "user" ? "user" : "assistant"}`}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
-                    m.role === "user"
-                      ? "bg-gradient-to-br from-brand-500 to-brand-700 text-white rounded-br-md shadow-md shadow-brand-500/30"
-                      : "glass rounded-bl-md"
-                  }`}
+                  className={`chat-bubble ${m.role === "user" ? "user" : "glass assistant"}`}
                 >
                   {m.role === "user" ? m.content : <Markdown>{m.content}</Markdown>}
                 </div>
               </div>
             ))}
             {loading && (
-              <div className="flex justify-start">
-                <div className="glass rounded-2xl rounded-bl-md px-3.5 py-2.5 text-sm text-soft flex items-center gap-2">
+              <div className="chat-row assistant">
+                <div className="chat-thinking glass">
                   <RefreshCw size={12} className="animate-spin" />
                   Thinking...
                 </div>
               </div>
             )}
             {messages.length === 1 && (
-              <div className="pt-2 space-y-1.5">
+              <div className="samples-container">
                 {SAMPLES.map((s, i) => (
                   <button
                     key={i}
                     onClick={() => send(s)}
-                    className="block w-full text-left text-xs rounded-lg glass hover:bg-[var(--surface-hover)] px-3 py-2 text-soft"
+                    className="sample-btn glass"
                   >
                     {s}
                   </button>
@@ -123,7 +118,7 @@ export default function AIChat() {
               e.preventDefault();
               send();
             }}
-            className="p-3 border-t divider flex gap-2"
+            className="chat-form divider"
           >
             <input
               className="input"
@@ -133,7 +128,7 @@ export default function AIChat() {
             />
             <button
               type="submit"
-              className="btn-primary px-3"
+              className="btn-primary send-btn"
               disabled={loading}
             >
               <Send size={16} />

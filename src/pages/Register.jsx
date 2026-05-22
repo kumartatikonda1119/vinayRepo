@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Sparkles, Sun, Moon } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
+import "./Register.css";
 
 export default function Register() {
   const { user, register } = useAuth();
@@ -35,33 +36,33 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="register-container">
       <button
         onClick={toggle}
-        className="fixed top-4 right-4 p-2.5 rounded-xl glass"
+        className="theme-toggle-btn glass"
         aria-label="Toggle theme"
       >
         {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
       </button>
 
-      <div className="w-full max-w-md">
+      <div className="register-box">
         <Link
           to="/"
-          className="flex items-center justify-center gap-2 mb-6"
+          className="register-logo-link"
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
+          <div className="register-logo-icon">
             <Sparkles size={18} />
           </div>
-          <span className="font-semibold text-lg">AI Habit Tracker</span>
+          <span className="register-logo-text">AI Habit Tracker</span>
         </Link>
 
-        <div className="card p-7">
-          <h1 className="text-2xl font-semibold">Create your account</h1>
-          <p className="text-sm text-muted mt-1">
+        <div className="card register-card">
+          <h1 className="register-title">Create your account</h1>
+          <p className="register-subtitle">
             Free forever. Takes 30 seconds.
           </p>
 
-          <form onSubmit={submit} className="mt-6 space-y-4">
+          <form onSubmit={submit} className="register-form">
             <div>
               <label className="label">Name</label>
               <input
@@ -96,22 +97,22 @@ export default function Register() {
               />
             </div>
             {err && (
-              <div className="text-sm text-rose-500 bg-rose-500/10 border border-rose-500/20 rounded-lg px-3 py-2">
+              <div className="register-error">
                 {err}
               </div>
             )}
             <button
               type="submit"
-              className="btn-primary w-full py-3"
+              className="btn-primary register-submit-btn"
               disabled={loading}
             >
               {loading ? "Creating account..." : "Create account"}
             </button>
           </form>
 
-          <div className="text-center mt-5 text-sm text-soft">
+          <div className="register-footer">
             Already have an account?{" "}
-            <Link to="/login" className="text-brand-600 dark:text-brand-300 font-medium">
+            <Link to="/login" className="register-footer-link">
               Log in
             </Link>
           </div>

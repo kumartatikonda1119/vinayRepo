@@ -7,6 +7,7 @@ import {
   Tooltip,
 } from "recharts";
 import { useTheme } from "../context/ThemeContext.jsx";
+import "./CategoryPieChart.css";
 
 const COLORS = [
   "#6366f1",
@@ -23,10 +24,10 @@ const COLORS = [
 export default function CategoryPieChart({ data }) {
   const { theme } = useTheme();
   return (
-    <div className="card p-5">
-      <div className="text-sm font-medium mb-3">Completions by category</div>
+    <div className="card chart-card">
+      <div className="chart-title">Completions by category</div>
       {!data?.length ? (
-        <div className="text-sm text-muted py-10 text-center">No data yet.</div>
+        <div className="chart-empty-message">No data yet.</div>
       ) : (
         <div style={{ width: "100%", height: 240 }}>
           <ResponsiveContainer>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Send,
   Sparkles,
@@ -12,6 +12,7 @@ import {
 import api from "../api/axios.js";
 import Markdown from "../components/Markdown.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
+import "./AICoach.css";
 
 const QUICK_REPLIES = [
   "Why do I skip evening habits?",
@@ -115,68 +116,57 @@ export default function AICoach() {
   const firstName = user?.name?.split(" ")[0] || "there";
 
   return (
-    <div className="animate-fade-in flex flex-col" style={{ height: "calc(100vh - 6rem)" }}>
+    <div className="coach-container animate-fade-in">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
+      <div className="coach-header">
+        <div className="coach-header-left">
+          <div className="coach-avatar-ai">
             <Sparkles size={20} />
           </div>
           <div>
-            <h1 className="text-xl font-semibold tracking-tight">AI Coach</h1>
-            <p className="text-xs text-muted">Your personal habit & fitness assistant</p>
+            <h1>AI Coach</h1>
+            <p>Your personal habit & fitness assistant</p>
           </div>
         </div>
-        <button className="p-2 rounded-lg text-soft hover:bg-[var(--surface-hover)] transition">
+        <button className="btn-more-options">
           <MoreHorizontal size={18} />
         </button>
       </div>
 
       {/* Stats Ribbon */}
       {!statsLoading && stats && (
-        <div className="flex gap-3 mb-4 overflow-x-auto pb-1">
-          <div className="chip gap-2 whitespace-nowrap">
-            <Flame size={13} className="text-orange-400" />
+        <div className="stats-ribbon">
+          <div className="chip stats-chip">
+            <Flame size={13} className="text-orange" />
             <span>{stats.activeStreak}-day streak active</span>
           </div>
-          <div className="chip gap-2 whitespace-nowrap">
-            <TrendingUp size={13} className="text-emerald-400" />
+          <div className="chip stats-chip">
+            <TrendingUp size={13} className="text-emerald" />
             <span>{stats.weeklyRate}% this week</span>
           </div>
-          <div className="chip gap-2 whitespace-nowrap">
-            <Target size={13} className="text-brand-400" />
+          <div className="chip stats-chip">
+            <Target size={13} className="text-amber" />
             <span>{stats.habitsTracked} habits tracked</span>
           </div>
         </div>
       )}
 
       {/* Chat Area */}
-      <div className="card flex-1 flex flex-col overflow-hidden">
-        <div
-          ref={scrollRef}
-          className="flex-1 overflow-y-auto px-4 py-4 space-y-4"
-        >
+      <div className="card chat-workspace">
+        <div ref={scrollRef} className="messages-list">
           {messages.map((m, i) => (
             <div
               key={i}
-              className={`flex ${
-                m.role === "user" ? "justify-end" : "justify-start"
-              } chat-bubble-enter`}
+              className={`message-row ${m.role === "user" ? "user" : "assistant"} chat-bubble-enter`}
               style={{ animationDelay: `${i * 0.05}s` }}
             >
               {m.role === "assistant" && (
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-md shadow-brand-500/30 mr-2 mt-1 shrink-0">
+                <div className="assistant-icon-badge">
                   <Sparkles size={14} />
                 </div>
               )}
-              <div className="max-w-[80%]">
-                <div
-                  className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-                    m.role === "user"
-                      ? "bg-gradient-to-br from-brand-500 to-brand-700 text-white rounded-br-md shadow-md shadow-brand-500/30"
-                      : "glass rounded-bl-md"
-                  }`}
-                >
+              <div className="message-payload">
+                <div className={`chat-bubble ${m.role === "user" ? "user" : "glass assistant"}`}>
                   {m.role === "user" ? (
                     m.content
                   ) : (
@@ -185,17 +175,12 @@ export default function AICoach() {
                 </div>
                 {/* Quick reply chips */}
                 {m.role === "assistant" && m.chips && i === messages.length - 1 && !loading && (
-                  <div className="flex flex-wrap gap-1.5 mt-2">
+                  <div className="quick-replies-container">
                     {m.chips.map((chip, ci) => (
                       <button
                         key={ci}
                         onClick={() => send(chip)}
-                        className="text-xs rounded-full px-3 py-1.5 border transition hover:scale-[1.03] active:scale-[0.97]"
-                        style={{
-                          borderColor: "var(--surface-border)",
-                          background: "var(--surface)",
-                          color: "var(--text-soft)",
-                        }}
+                        className="quick-reply-btn"
                       >
                         {chip}
                       </button>
@@ -207,15 +192,15 @@ export default function AICoach() {
           ))}
 
           {loading && (
-            <div className="flex justify-start chat-bubble-enter">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-md shadow-brand-500/30 mr-2 mt-1 shrink-0">
+            <div className="message-row assistant chat-bubble-enter">
+              <div className="assistant-icon-badge">
                 <Sparkles size={14} />
               </div>
-              <div className="glass rounded-2xl rounded-bl-md px-4 py-3 text-sm text-soft flex items-center gap-2">
-                <div className="flex gap-1">
-                  <span className="w-2 h-2 rounded-full bg-brand-400 animate-bounce" style={{ animationDelay: "0s" }}></span>
-                  <span className="w-2 h-2 rounded-full bg-brand-400 animate-bounce" style={{ animationDelay: "0.15s" }}></span>
-                  <span className="w-2 h-2 rounded-full bg-brand-400 animate-bounce" style={{ animationDelay: "0.3s" }}></span>
+              <div className="glass chat-thinking-bubble">
+                <div className="thinking-dots">
+                  <span className="thinking-dot"></span>
+                  <span className="thinking-dot"></span>
+                  <span className="thinking-dot"></span>
                 </div>
                 Thinking...
               </div>
@@ -224,18 +209,18 @@ export default function AICoach() {
         </div>
 
         {/* User info + Input area */}
-        <div className="border-t divider">
+        <div className="input-area-container">
           <form
             onSubmit={(e) => {
               e.preventDefault();
               send();
             }}
-            className="p-3 flex items-center gap-3"
+            className="input-form"
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white font-semibold text-sm flex items-center justify-center shrink-0 shadow-md shadow-brand-500/30">
+            <div className="user-avatar-circle">
               {user?.avatar || user?.name?.charAt(0).toUpperCase() || "U"}
             </div>
-            <div className="flex-1 min-w-0 text-xs text-faint truncate hidden sm:block" style={{ maxWidth: "80px" }}>
+            <div className="user-name-label">
               {firstName}
             </div>
             <input

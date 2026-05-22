@@ -1,23 +1,24 @@
 import { ListChecks, Flame, Trophy, TrendingUp } from "lucide-react";
+import "./SummaryCards.css";
 
 const Card = ({ icon: Icon, label, value, iconBg, iconFg }) => (
-  <div className="card p-4 flex items-center gap-3 overflow-hidden relative">
+  <div className="card summary-card">
     <div
-      className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+      className="summary-icon-container"
       style={{ background: iconBg, color: iconFg }}
     >
       <Icon size={18} />
     </div>
     <div>
-      <div className="text-xs font-medium text-muted">{label}</div>
-      <div className="text-xl font-semibold">{value}</div>
+      <div className="summary-label">{label}</div>
+      <div className="summary-value">{value}</div>
     </div>
   </div>
 );
 
 export default function SummaryCards({ totalHabits, activeStreaks, bestStreak, weekRate }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div className="summary-grid">
       <Card
         icon={ListChecks}
         label="Total habits"

@@ -1,5 +1,6 @@
 import { weekKeys } from "../utils/dateHelpers.js";
 import { Check } from "lucide-react";
+import "./WeeklyGrid.css";
 
 export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
   const days = customDays || weekKeys();
@@ -7,25 +8,23 @@ export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
 
   if (!habits.length) {
     return (
-      <div className="card p-6 text-center text-muted text-sm">
+      <div className="card grid-empty-card">
         Create a habit to see your weekly grid.
       </div>
     );
   }
 
   return (
-    <div className="card p-5 overflow-x-auto">
-      <div className="min-w-[520px]">
-        <div className="grid grid-cols-[180px_repeat(7,minmax(0,1fr))] gap-2 items-center mb-2">
-          <div className="text-xs font-medium text-muted uppercase tracking-wider">
+    <div className="card grid-card">
+      <div className="grid-min-width">
+        <div className="weekly-row-layout weekly-header-row">
+          <div className="weekly-header-title">
             Habit
           </div>
           {days.map((d) => (
             <div
               key={d.key}
-              className={`text-center text-xs font-medium ${
-                d.key === todayKey ? "text-brand-600 dark:text-brand-300" : "text-muted"
-              }`}
+              className={`day-header ${d.key === todayKey ? "today" : "other"}`}
             >
               <div>{d.label}</div>
               <div className="text-faint">{d.short}</div>
@@ -38,29 +37,29 @@ export default function WeeklyGrid({ habits, logsByHabit, days: customDays }) {
           return (
             <div
               key={h._id}
-              className="grid grid-cols-[180px_repeat(7,minmax(0,1fr))] gap-2 items-center py-2 border-t divider"
+              className="weekly-row-layout weekly-habit-row divider"
             >
-              <div className="flex items-center gap-2 min-w-0">
+              <div className="weekly-habit-info">
                 <span
-                  className="w-7 h-7 rounded-lg flex items-center justify-center text-base shrink-0"
+                  className="weekly-habit-icon"
                   style={{ background: `${h.color}26`, color: h.color }}
                 >
                   {h.icon}
                 </span>
-                <span className="text-sm truncate">{h.name}</span>
+                <span className="weekly-habit-name">{h.name}</span>
               </div>
               {days.map((d) => {
                 const isDone = done.has(d.key);
                 const future = d.key > todayKey;
                 return (
-                  <div key={d.key} className="flex items-center justify-center">
+                  <div key={d.key} className="weekly-cell-container">
                     <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center transition ${
+                      className={`weekly-cell ${
                         isDone
-                          ? "text-white shadow-md"
+                          ? "done"
                           : future
-                          ? "text-faint"
-                          : "text-faint"
+                          ? "future"
+                          : "empty"
                       }`}
                       style={
                         isDone

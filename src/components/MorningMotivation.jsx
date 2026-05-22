@@ -3,6 +3,7 @@ import { Sun, X } from "lucide-react";
 import api from "../api/axios.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import Markdown from "./Markdown.jsx";
+import "./MorningMotivation.css";
 
 export default function MorningMotivation() {
   const { user } = useAuth();
@@ -29,9 +30,9 @@ export default function MorningMotivation() {
     return null;
 
   return (
-    <div className="relative rounded-2xl p-5 glass overflow-hidden animate-slide-up">
+    <div className="relative rounded-2xl morning-motivation-container glass animate-slide-up">
       <div
-        className="absolute inset-0 pointer-events-none opacity-60"
+        className="morning-motivation-bg"
         style={{
           background:
             "radial-gradient(circle at 0% 0%, rgba(251,191,36,0.25), transparent 55%), radial-gradient(circle at 100% 100%, rgba(99,102,241,0.18), transparent 55%)",
@@ -39,20 +40,20 @@ export default function MorningMotivation() {
       />
       <button
         onClick={() => setDismissed(true)}
-        className="absolute top-3 right-3 text-soft hover:text-[var(--text)] z-10"
+        className="morning-motivation-dismiss"
         aria-label="Dismiss"
       >
         <X size={16} />
       </button>
-      <div className="flex items-start gap-3 pr-6 relative">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/30 animate-float">
+      <div className="morning-motivation-content">
+        <div className="morning-motivation-icon animate-float">
           <Sun size={20} />
         </div>
         <div>
-          <div className="text-xs font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-300">
+          <div className="morning-motivation-greeting">
             Good morning, {user.name?.split(" ")[0]}
           </div>
-          <div className="mt-1 text-sm">
+          <div className="morning-motivation-body">
             {loading ? (
               "Thinking of something nice to say..."
             ) : (

@@ -1,0 +1,77 @@
+.weekly-report-container {
+  padding: 1.25rem;
+}
+
+.weekly-report-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.weekly-report-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+  position: relative;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.weekly-report-icon-container {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, var(--color-brand-500), var(--color-brand-700));
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3), 0 4px 6px -4px rgba(245, 158, 11, 0.3);
+}
+
+.weekly-report-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.weekly-report-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.weekly-report-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.weekly-report-chevron {
+  color: var(--text-faint);
+  transition: transform 0.2s ease;
+}
+
+.weekly-report-chevron.expanded {
+  transform: rotate(180deg);
+}
+
+.weekly-report-content {
+  margin-top: 1rem;
+  position: relative;
+}
+
+.weekly-report-markdown {
+  margin-top: 0.25rem;
+  padding: 1rem;
+}
+
+.weekly-report-footer {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: flex-end;
+}

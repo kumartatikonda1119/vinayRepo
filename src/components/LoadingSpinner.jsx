@@ -1,13 +1,15 @@
+import "./LoadingSpinner.css";
+
 export default function LoadingSpinner({ full = false, size = 24 }) {
   const spinner = (
     <div
-      className="animate-spin rounded-full border-2 border-ink-200 border-t-brand-600"
+      className="spinner"
       style={{ width: size, height: size }}
     />
   );
   if (!full) return spinner;
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="spinner-full-container">
       {spinner}
     </div>
   );

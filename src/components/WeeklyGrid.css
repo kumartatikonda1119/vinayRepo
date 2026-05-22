@@ -1,0 +1,108 @@
+.grid-empty-card {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.grid-card {
+  padding: 1.25rem;
+  overflow-x: auto;
+}
+
+.grid-min-width {
+  min-width: 520px;
+}
+
+.weekly-row-layout {
+  display: grid;
+  grid-template-columns: 180px repeat(7, minmax(0, 1fr));
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.weekly-header-row {
+  margin-bottom: 0.5rem;
+}
+
+.weekly-header-title {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.day-header {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.day-header.today {
+  color: var(--color-brand-600);
+}
+
+html.dark .day-header.today {
+  color: var(--color-brand-300);
+}
+
+.day-header.other {
+  color: var(--text-muted);
+}
+
+.weekly-habit-row {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-top-width: 1px;
+}
+
+.weekly-habit-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.weekly-habit-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.weekly-habit-name {
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.weekly-cell-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weekly-cell {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.weekly-cell.done {
+  color: #ffffff;
+}
+
+.weekly-cell.future,
+.weekly-cell.empty {
+  color: var(--text-faint);
+}

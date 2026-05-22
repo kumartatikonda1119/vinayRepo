@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Sparkles, ChevronDown, RefreshCw } from "lucide-react";
 import api from "../api/axios.js";
 import Markdown from "./Markdown.jsx";
+import "./AIWeeklyReport.css";
 
 export default function AIWeeklyReport() {
   const [expanded, setExpanded] = useState(false);
@@ -24,9 +25,9 @@ export default function AIWeeklyReport() {
   };
 
   return (
-    <div className="card p-5 relative overflow-hidden">
+    <div className="card weekly-report-container relative overflow-hidden">
       <div
-        className="absolute inset-0 pointer-events-none opacity-40"
+        className="weekly-report-bg"
         style={{
           background:
             "radial-gradient(circle at 0% 0%, rgba(99,102,241,0.25), transparent 60%)",
@@ -34,14 +35,14 @@ export default function AIWeeklyReport() {
       />
       <button
         onClick={() => setExpanded((e) => !e)}
-        className="w-full flex items-center gap-3 text-left relative"
+        className="weekly-report-header"
       >
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shrink-0 shadow-lg shadow-brand-500/30">
+        <div className="weekly-report-icon-container">
           <Sparkles size={18} />
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="text-sm font-medium">AI Weekly Report</div>
-          <div className="text-xs text-muted">
+        <div className="weekly-report-info">
+          <div className="weekly-report-title">AI Weekly Report</div>
+          <div className="weekly-report-subtitle">
             {content
               ? `Generated ${generatedAt ? generatedAt.toLocaleTimeString() : "now"}`
               : "See patterns and personalised encouragement from the past 7 days"}
@@ -49,12 +50,12 @@ export default function AIWeeklyReport() {
         </div>
         <ChevronDown
           size={18}
-          className={`text-faint transition ${expanded ? "rotate-180" : ""}`}
+          className={`weekly-report-chevron ${expanded ? "expanded" : ""}`}
         />
       </button>
 
       {expanded && (
-        <div className="mt-4 animate-slide-up relative">
+        <div className="weekly-report-content animate-slide-up">
           {!content && (
             <button
               onClick={generate}
@@ -77,10 +78,10 @@ export default function AIWeeklyReport() {
 
           {content && (
             <>
-              <Markdown className="mt-1 glass rounded-xl p-4 text-sm">
+              <Markdown className="weekly-report-markdown glass rounded-xl">
                 {content}
               </Markdown>
-              <div className="mt-3 flex justify-end">
+              <div className="weekly-report-footer">
                 <button
                   onClick={generate}
                   disabled={loading}
@@ -100,3 +101,4 @@ export default function AIWeeklyReport() {
     </div>
   );
 }
+

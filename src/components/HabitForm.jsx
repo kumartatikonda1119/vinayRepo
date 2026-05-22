@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CATEGORIES, COLORS, ICONS } from "../utils/constants.js";
+import "./HabitForm.css";
 
 export default function HabitForm({ initial, onSubmit, onCancel, submitting }) {
   const [form, setForm] = useState({
@@ -28,7 +29,7 @@ export default function HabitForm({ initial, onSubmit, onCancel, submitting }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="form-container">
       <div>
         <label className="label">Habit name</label>
         <input
@@ -52,7 +53,7 @@ export default function HabitForm({ initial, onSubmit, onCancel, submitting }) {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="form-grid-2">
         <div>
           <label className="label">Category</label>
           <select
@@ -89,22 +90,19 @@ export default function HabitForm({ initial, onSubmit, onCancel, submitting }) {
           max={7}
           value={form.targetDays}
           onChange={set("targetDays")}
-          className="w-full accent-brand-600"
+          className="range-input"
         />
       </div>
 
       <div>
         <label className="label">Icon</label>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex-wrap-gap-2">
           {ICONS.map((i) => (
             <button
               type="button"
               key={i}
               onClick={() => set("icon")(i)}
-              className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center transition ${form.icon === i
-                ? "ring-2 ring-brand-500 bg-brand-500/15"
-                : "glass hover:bg-[var(--surface-hover)]"
-                }`}
+              className={`icon-btn ${form.icon === i ? "selected" : "unselected"}`}
             >
               {i}
             </button>
@@ -114,16 +112,13 @@ export default function HabitForm({ initial, onSubmit, onCancel, submitting }) {
 
       <div>
         <label className="label">Color</label>
-        <div className="flex gap-2">
+        <div className="flex-gap-2">
           {COLORS.map((c) => (
             <button
               type="button"
               key={c}
               onClick={() => set("color")(c)}
-              className={`w-8 h-8 rounded-full transition ${form.color === c
-                ? "ring-4 ring-offset-2 ring-offset-[var(--bg-base)] ring-[var(--surface-ring)]"
-                : ""
-                }`}
+              className={`color-btn ${form.color === c ? "selected" : ""}`}
               style={{ background: c }}
               aria-label={`Select color ${c}`}
             />
@@ -131,7 +126,7 @@ export default function HabitForm({ initial, onSubmit, onCancel, submitting }) {
         </div>
       </div>
 
-      <div className="flex justify-end gap-2 pt-2">
+      <div className="form-actions">
         <button type="button" className="btn-secondary" onClick={onCancel}>
           Cancel
         </button>

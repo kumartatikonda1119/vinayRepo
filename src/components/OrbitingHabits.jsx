@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa6";
 import { GiMeditation } from "react-icons/gi";
 import { useTheme } from "../context/ThemeContext.jsx";
+import "./OrbitingHabits.css";
 
 const HABITS = [
   // outer orbit
@@ -59,12 +60,12 @@ export default function OrbitingHabits() {
     : "radial-gradient(circle, rgba(251,191,36,0.22), transparent 70%)";
 
   return (
-    <div className="relative mx-auto w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[460px] lg:h-[460px]">
+    <div className="orbit-container">
       {/* twinkling stars */}
       {STARS.map((s, i) => (
         <span
           key={i}
-          className="absolute rounded-full bg-amber-400/70 dark:bg-amber-200/70"
+          className="orbit-star"
           style={{
             top: s.top,
             left: s.left,
@@ -79,14 +80,14 @@ export default function OrbitingHabits() {
       {Object.entries(ORBITS).map(([k, o]) => (
         <div
           key={k}
-          className="absolute rounded-full border border-dashed border-[var(--surface-border)] dark:border-white/10"
+          className="orbit-ring"
           style={{ inset: o.inset }}
         />
       ))}
 
       {/* soft pulsing halo behind sun */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        className="orbit-halo"
         style={{
           width: "34%",
           height: "34%",
@@ -97,7 +98,7 @@ export default function OrbitingHabits() {
 
       {/* central sun — glassy, subtle */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[20%] h-[20%] rounded-full flex items-center justify-center backdrop-blur-xl"
+        className="orbit-sun"
         style={{
           background: sunGradient,
           boxShadow: sunShadow,
@@ -115,14 +116,14 @@ export default function OrbitingHabits() {
         return (
           <div
             key={i}
-            className="absolute rounded-full"
+            className="orbiting-planet-path"
             style={{
               inset: o.inset,
               animation: `${h.reverse ? "orbit-reverse" : "orbit"} ${o.duration}s linear ${h.delay}s infinite`,
             }}
           >
             <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl flex items-center justify-center backdrop-blur-md glass-strong"
+              className="orbiting-planet glass-strong"
               style={{
                 width: o.planet,
                 height: o.planet,

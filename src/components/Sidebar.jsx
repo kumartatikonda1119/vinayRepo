@@ -17,6 +17,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
 import Modal from "./Modal.jsx";
 import api from "../api/axios.js";
+import "./Sidebar.css";
 
 const nav = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -48,26 +49,23 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="hidden md:flex md:flex-col w-64 fixed inset-y-0 left-0 z-30 glass border-r">
-      <div className="px-6 py-5 border-b divider">
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
+    <aside className="sidebar-aside glass">
+      <div className="sidebar-header divider">
+        <div className="sidebar-brand">
+          <div className="sidebar-icon-container">
             <Sparkles size={18} />
           </div>
-          <div className="font-semibold text-lg tracking-tight">AI Habit Tracker</div>
+          <div className="sidebar-title">AI Habit Tracker</div>
         </div>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-1">
+      <nav className="sidebar-nav">
         {nav.map(({ to, label, icon: Icon }) => (
           <NavLink
             key={to}
             to={to}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition ${isActive
-                ? "bg-gradient-to-r from-brand-500/15 to-brand-500/5 text-brand-700 dark:text-brand-300 ring-1 ring-brand-500/20"
-                : "text-soft hover:bg-[var(--surface-hover)]"
-              }`
+              `sidebar-link ${isActive ? "active" : "inactive"}`
             }
           >
             <Icon size={18} />
@@ -76,35 +74,35 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <div className="p-3 border-t divider space-y-1">
+      <div className="sidebar-footer divider">
         <button
           onClick={toggle}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-soft hover:bg-[var(--surface-hover)] transition"
+          className="sidebar-footer-btn"
         >
           {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
           {theme === "dark" ? "Light mode" : "Dark mode"}
         </button>
 
         <button
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-soft hover:bg-[var(--surface-hover)] transition"
+          className="sidebar-footer-btn"
           onClick={() => setSettingsOpen(true)}
         >
           <Settings size={18} />
           Settings
         </button>
 
-        <div className="px-2 py-2 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white font-semibold flex items-center justify-center shadow-md shadow-brand-500/30">
+        <div className="sidebar-profile">
+          <div className="sidebar-avatar">
             {user?.avatar || user?.name?.charAt(0).toUpperCase() || "U"}
           </div>
-          <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium truncate">{user?.name}</div>
-            <div className="text-xs text-faint truncate">{user?.email}</div>
+          <div className="sidebar-profile-info">
+            <div className="sidebar-username">{user?.name}</div>
+            <div className="sidebar-email">{user?.email}</div>
           </div>
           <button
             onClick={logout}
             title="Log out"
-            className="p-2 rounded-lg text-soft hover:bg-[var(--surface-hover)]"
+            className="sidebar-logout-btn"
           >
             <LogOut size={16} />
           </button>
@@ -116,7 +114,7 @@ export default function Sidebar() {
         onClose={() => setSettingsOpen(false)}
         title="Settings"
       >
-        <div className="space-y-4">
+        <div className="settings-content">
           <div>
             <label className="label">Display name</label>
             <input
@@ -126,23 +124,23 @@ export default function Sidebar() {
             />
           </div>
 
-          <label className="flex items-start gap-3 p-3 rounded-xl glass cursor-pointer hover:bg-[var(--surface-hover)]">
+          <label className="settings-checkbox-container glass">
             <input
               type="checkbox"
               checked={morning}
               onChange={(e) => setMorning(e.target.checked)}
-              className="mt-1 accent-brand-600"
+              className="settings-checkbox"
             />
             <div>
-              <div className="text-sm font-medium">Morning motivation</div>
-              <div className="text-xs text-faint">
+              <div className="checkbox-title">Morning motivation</div>
+              <div className="checkbox-desc">
                 Show a short personalised AI message every morning on the
                 dashboard.
               </div>
             </div>
           </label>
 
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="settings-actions">
             <button
               className="btn-secondary"
               onClick={() => setSettingsOpen(false)}

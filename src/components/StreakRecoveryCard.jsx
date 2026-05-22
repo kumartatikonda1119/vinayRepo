@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Heart, RefreshCw, X } from "lucide-react";
 import api from "../api/axios.js";
 import Markdown from "./Markdown.jsx";
+import "./StreakRecoveryCard.css";
 
 export default function StreakRecoveryCard({ habit, onDismiss }) {
   const [content, setContent] = useState("");
@@ -18,9 +19,9 @@ export default function StreakRecoveryCard({ habit, onDismiss }) {
   };
 
   return (
-    <div className="relative rounded-2xl p-5 glass overflow-hidden animate-slide-up">
+    <div className="relative rounded-2xl streak-recovery-container glass animate-slide-up">
       <div
-        className="absolute inset-0 pointer-events-none opacity-60"
+        className="streak-recovery-bg"
         style={{
           background:
             "radial-gradient(circle at 0% 0%, rgba(244,114,182,0.22), transparent 55%), radial-gradient(circle at 100% 100%, rgba(239,68,68,0.15), transparent 55%)",
@@ -28,21 +29,21 @@ export default function StreakRecoveryCard({ habit, onDismiss }) {
       />
       <button
         onClick={onDismiss}
-        className="absolute top-3 right-3 text-soft hover:text-[var(--text)] z-10"
+        className="streak-recovery-dismiss"
         aria-label="Dismiss"
       >
         <X size={16} />
       </button>
 
-      <div className="flex items-start gap-3 pr-6 relative">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-400 to-pink-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-rose-500/30">
+      <div className="streak-recovery-content">
+        <div className="streak-recovery-icon">
           <Heart size={18} />
         </div>
-        <div className="flex-1">
-          <div className="text-xs font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-300">
+        <div className="streak-recovery-body">
+          <div className="streak-recovery-title">
             Streak paused · {habit.name}
           </div>
-          <div className="mt-1 text-sm text-soft">
+          <div className="streak-recovery-subtitle">
             You had a great run. Broken streaks are part of the journey — let's
             get back on track.
           </div>
@@ -63,7 +64,7 @@ export default function StreakRecoveryCard({ habit, onDismiss }) {
               )}
             </button>
           ) : (
-            <Markdown className="mt-3 glass rounded-xl p-4 text-sm">
+            <Markdown className="streak-recovery-markdown glass rounded-xl">
               {content}
             </Markdown>
           )}

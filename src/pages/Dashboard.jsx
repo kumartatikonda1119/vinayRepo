@@ -16,6 +16,7 @@ import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import { celebrate, celebrateBig } from "../utils/confetti.js";
 import { streakFromKeys, todayKey, weekKeys } from "../utils/dateHelpers.js";
 import { useAuth } from "../context/AuthContext.jsx";
+import "./Dashboard.css";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -225,13 +226,13 @@ export default function Dashboard() {
   if (loading) return <LoadingSpinner full />;
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="flex items-center justify-between gap-3">
+    <div className="dashboard-container animate-fade-in">
+      <div className="dashboard-header">
         <div>
           <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
             Hey {user?.name?.split(" ")[0]} 👋
           </h1>
-          <p className="text-sm text-muted mt-0.5">
+          <p className="dashboard-subtitle">
             {new Date().toLocaleDateString(undefined, {
               weekday: "long",
               month: "long",
@@ -239,13 +240,13 @@ export default function Dashboard() {
             })}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="dashboard-header-actions">
           <button
             className="btn-secondary"
             onClick={() => setSuggestOpen(true)}
           >
             <Sparkles size={14} />
-            <span className="hidden sm:inline">Suggest a habit</span>
+            <span className="hide-mobile">Suggest a habit</span>
           </button>
           <button
             className="btn-primary"
@@ -287,17 +288,17 @@ export default function Dashboard() {
       />
 
       <div className="card p-5">
-        <div className="flex items-center justify-between mb-4">
+        <div className="dashboard-habits-header">
           <div>
             <div className="text-sm font-medium">Today's habits</div>
             <div className="text-xs text-muted">
               {completedToday.size} of {habits.length} complete
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="dashboard-habits-progress">
             <div className="relative">
               <ProgressRing value={todayProgress} size={52} stroke={5} />
-              <div className="absolute inset-0 flex items-center justify-center text-xs font-semibold">
+              <div className="dashboard-progress-label">
                 {todayProgress}%
               </div>
             </div>
@@ -305,10 +306,10 @@ export default function Dashboard() {
         </div>
 
         {habits.length === 0 ? (
-          <div className="text-center py-8">
-            <div className="text-5xl mb-3">🎯</div>
+          <div className="dashboard-empty">
+            <div className="dashboard-empty-emoji">🎯</div>
             <div className="font-medium">Let's build your first habit</div>
-            <div className="text-sm text-muted mt-1">
+            <div className="dashboard-empty-desc">
               Start small — something you can do in under 5 minutes.
             </div>
             <button
@@ -320,7 +321,7 @@ export default function Dashboard() {
             </button>
           </div>
         ) : (
-          <div className="space-y-2">
+          <div className="dashboard-habits-list">
             {habits.map((h) => (
               <TodayHabitCard
                 key={h._id}
@@ -342,11 +343,11 @@ export default function Dashboard() {
 
       <AIWeeklyReport />
 
-      <div className="grid lg:grid-cols-12 gap-5">
-        <div className="col-span-8">
+      <div className="dashboard-charts-grid">
+        <div className="dashboard-chart-main">
           <WeeklyGrid habits={habits} logsByHabit={weekLogsByHabit} />
         </div>
-        <div className="col-span-4">
+        <div className="dashboard-chart-side">
           <HeatmapChart data={heatmap} />
         </div>
       </div>
@@ -376,11 +377,11 @@ export default function Dashboard() {
         title="Delete habit?"
         maxWidth="max-w-sm"
       >
-        <p className="text-sm text-soft">
+        <p className="dashboard-modal-desc">
           This will permanently delete <b>{deleteTarget?.name}</b> and all its
           history. This can't be undone.
         </p>
-        <div className="flex justify-end gap-2 mt-5">
+        <div className="dashboard-modal-actions">
           <button
             className="btn-secondary"
             onClick={() => setDeleteTarget(null)}
@@ -388,7 +389,7 @@ export default function Dashboard() {
             Cancel
           </button>
           <button
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-rose-500 to-red-600 px-4 py-2.5 text-sm font-medium text-white hover:brightness-110 shadow-lg shadow-rose-500/30 transition"
+            className="btn-delete-confirm"
             onClick={() => deleteHabit(deleteTarget)}
           >
             Delete

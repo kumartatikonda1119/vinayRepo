@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { format, parseISO } from "date-fns";
+import "./HeatmapChart.css";
 
 const levelColor = (count, max) => {
   if (!count) return "var(--heat-0)";
@@ -38,20 +39,20 @@ export default function HeatmapChart({ data = [] }) {
   const totalCount = data.reduce((s, d) => s + d.count, 0);
 
   return (
-    <div className="card p-5">
-      <div className="flex items-center justify-between mb-3">
+    <div className="card chart-card">
+      <div className="heatmap-header">
         <div>
-          <div className="text-sm font-medium">Consistency</div>
-          <div className="text-xs text-muted">
+          <div className="heatmap-title">Consistency</div>
+          <div className="heatmap-subtitle">
             {totalCount} completions in the last 90 days
           </div>
         </div>
-        <div className="flex items-center gap-1.5 text-xs text-muted">
+        <div className="heatmap-legend">
           Less
           {[0, 0.2, 0.5, 0.8, 1].map((r, i) => (
             <span
               key={i}
-              className="w-3 h-3 rounded-sm"
+              className="heatmap-legend-box"
               style={{ background: levelColor(r * (max || 1), max || 1) }}
             />
           ))}
@@ -59,22 +60,22 @@ export default function HeatmapChart({ data = [] }) {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <div className="flex gap-1">
+      <div className="heatmap-scroll">
+        <div className="flex-gap-1">
           {cols.map((col, ci) => (
-            <div key={ci} className="flex flex-col gap-1">
+            <div key={ci} className="flex-col-gap-1">
               {col.map((d, ri) =>
                 d ? (
                   <div
                     key={ri}
-                    className="w-3.5 h-3.5 rounded-sm transition-colors"
+                    className="heatmap-box"
                     style={{ background: levelColor(d.count, max) }}
                     title={`${format(parseISO(d.date), "MMM d, yyyy")} — ${d.count} completion${
                       d.count === 1 ? "" : "s"
                     }`}
                   />
                 ) : (
-                  <div key={ri} className="w-3.5 h-3.5" />
+                  <div key={ri} className="heatmap-box-empty" />
                 )
               )}
             </div>

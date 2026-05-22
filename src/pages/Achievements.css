@@ -1,0 +1,351 @@
+/* ---------- Achievements Page Styles ---------- */
+
+.achievements-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.achievements-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.achievements-header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .achievements-header h1 {
+    font-size: 1.875rem;
+  }
+}
+
+.achievements-header-trophy {
+  color: var(--color-brand-500);
+}
+
+.achievements-header p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 0.125rem;
+}
+
+.achievements-stats-grid {
+  display: grid;
+  grid-template-cols: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .achievements-stats-grid {
+    grid-template-cols: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.stat-card {
+  padding: 1rem;
+}
+
+.stat-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card-icon-container {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-container-brand {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(180, 83, 9, 0.1));
+}
+
+.icon-container-emerald {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(4, 120, 87, 0.1));
+}
+
+.icon-container-purple {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(109, 40, 217, 0.1));
+}
+
+.icon-container-orange {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(194, 65, 12, 0.1));
+}
+
+.text-brand {
+  color: var(--color-brand-500);
+}
+
+.text-emerald {
+  color: #34d399;
+}
+
+.text-purple {
+  color: #c084fc;
+}
+
+.text-orange {
+  color: #fb923c;
+}
+
+.stat-card-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.stat-card-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: baseline;
+}
+
+.stat-card-denominator {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-faint);
+}
+
+.stat-card-subtext {
+  font-size: 0.875rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progress-card {
+  padding: 1rem;
+}
+
+.progress-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.progress-card-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.progress-card-count {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 0.75rem;
+  border-radius: 9999px;
+  overflow: hidden;
+  background: var(--chip-bg);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: all 0.7s ease-out;
+}
+
+.rarity-breakdown-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.rarity-breakdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.rarity-indicator-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+}
+
+.rarity-breakdown-text {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.tabs-scroll-row {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.filter-tab-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+}
+
+.filter-tab-btn.active {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+  color: #b45309;
+  box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.2);
+}
+
+html.dark .filter-tab-btn.active {
+  color: #fcd34d;
+}
+
+.filter-tab-btn.inactive {
+  color: var(--text-soft);
+}
+
+.tab-count-badge {
+  margin-left: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+.achievements-cards-grid {
+  display: grid;
+  grid-template-cols: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .achievements-cards-grid {
+    grid-template-cols: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .achievements-cards-grid {
+    grid-template-cols: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .achievements-cards-grid {
+    grid-template-cols: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.empty-achievements-card {
+  padding: 3rem;
+  text-align: center;
+}
+
+.empty-achievements-card .text-4xl {
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.empty-achievements-card .font-medium {
+  font-weight: 500;
+}
+
+.empty-achievements-card .text-muted {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.detail-modal-body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-badge {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+}
+
+.modal-badge.locked {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.modal-achievement-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.modal-rarity-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+}
+
+.modal-achievement-desc {
+  font-size: 0.875rem;
+  color: var(--text-soft);
+}
+
+.modal-detail-panel {
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.modal-detail-panel.text-left {
+  text-align: left;
+}
+
+.modal-detail-panel-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.modal-detail-panel-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.modal-progress-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-tip-header {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}

@@ -1,0 +1,17 @@
+.chart-card {
+  padding: 1.25rem;
+}
+
+.chart-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+.chart-empty-message {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  text-align: center;
+}

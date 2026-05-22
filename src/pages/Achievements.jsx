@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo } from "react";
-import { Trophy, Filter, Star, Flame, Target, Sparkles, X } from "lucide-react";
+import { Trophy, Flame, Target, Sparkles } from "lucide-react";
 import api from "../api/axios.js";
 import AchievementCard from "../components/AchievementCard.jsx";
 import { ACHIEVEMENT_CATEGORIES, RARITY } from "../utils/mockAchievements.js";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import Modal from "../components/Modal.jsx";
 import { celebrate } from "../utils/confetti.js";
+import "./Achievements.css";
 
 export default function Achievements() {
   const [achievements, setAchievements] = useState([]);
@@ -58,53 +59,49 @@ export default function Achievements() {
   if (loading) return <LoadingSpinner full />;
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="achievements-container animate-fade-in">
       {/* Header */}
-      <div className="flex items-center justify-between gap-3">
+      <div className="achievements-header">
         <div>
-          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight flex items-center gap-2">
-            <Trophy size={28} className="text-brand-500" />
+          <h1>
+            <Trophy size={28} className="achievements-header-trophy" />
             Achievements
           </h1>
-          <p className="text-sm text-muted mt-0.5">
-            Track your milestones and showcase your progress
-          </p>
+          <p>Track your milestones and showcase your progress</p>
         </div>
       </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div className="card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500/20 to-brand-700/10 flex items-center justify-center">
-              <Trophy size={16} className="text-brand-500" />
+      <div className="achievements-stats-grid">
+        <div className="card stat-card">
+          <div className="stat-card-header">
+            <div className="stat-card-icon-container icon-container-brand">
+              <Trophy size={16} className="text-brand" />
             </div>
-            <span className="text-xs text-muted">Earned</span>
+            <span className="stat-card-label">Earned</span>
           </div>
-          <div className="text-2xl font-bold">
+          <div className="stat-card-value">
             {earnedCount}
-            <span className="text-sm font-normal text-faint">
-              /{totalCount}
-            </span>
+            <span className="stat-card-denominator">/{totalCount}</span>
           </div>
         </div>
-        <div className="card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500/20 to-emerald-700/10 flex items-center justify-center">
-              <Target size={16} className="text-emerald-400" />
+        <div className="card stat-card">
+          <div className="stat-card-header">
+            <div className="stat-card-icon-container icon-container-emerald">
+              <Target size={16} className="text-emerald" />
             </div>
-            <span className="text-xs text-muted">Completion</span>
+            <span className="stat-card-label">Completion</span>
           </div>
-          <div className="text-2xl font-bold">{earnedPct}%</div>
+          <div className="stat-card-value">{earnedPct}%</div>
         </div>
-        <div className="card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-700/10 flex items-center justify-center">
-              <Sparkles size={16} className="text-purple-400" />
+        <div className="card stat-card">
+          <div className="stat-card-header">
+            <div className="stat-card-icon-container icon-container-purple">
+              <Sparkles size={16} className="text-purple" />
             </div>
-            <span className="text-xs text-muted">Rarest</span>
+            <span className="stat-card-label">Rarest</span>
           </div>
-          <div className="text-sm font-semibold">
+          <div className="stat-card-subtext">
             {rarityCounts.legendary > 0
               ? `${rarityCounts.legendary} Legendary`
               : rarityCounts.epic > 0
@@ -112,30 +109,30 @@ export default function Achievements() {
               : `${rarityCounts.rare} Rare`}
           </div>
         </div>
-        <div className="card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-700/10 flex items-center justify-center">
-              <Flame size={16} className="text-orange-400" />
+        <div className="card stat-card">
+          <div className="stat-card-header">
+            <div className="stat-card-icon-container icon-container-orange">
+              <Flame size={16} className="text-orange" />
             </div>
-            <span className="text-xs text-muted">Next Up</span>
+            <span className="stat-card-label">Next Up</span>
           </div>
-          <div className="text-sm font-semibold truncate">
+          <div className="stat-card-subtext">
             {achievements.find((a) => !a.earnedAt)?.title || "All done! 🎉"}
           </div>
         </div>
       </div>
 
       {/* Overall Progress Bar */}
-      <div className="card p-4">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium">Overall Progress</span>
-          <span className="text-sm text-muted">
+      <div className="card progress-card">
+        <div className="progress-card-header">
+          <span className="progress-card-title">Overall Progress</span>
+          <span className="progress-card-count">
             {earnedCount} of {totalCount} achievements
           </span>
         </div>
-        <div className="w-full h-3 rounded-full overflow-hidden" style={{ background: "var(--chip-bg)" }}>
+        <div className="progress-bar-container">
           <div
-            className="h-full rounded-full transition-all duration-700 ease-out"
+            className="progress-bar-fill"
             style={{
               width: `${earnedPct}%`,
               background: "linear-gradient(90deg, #fbbf24, #d97706, #f59e0b)",
@@ -143,14 +140,14 @@ export default function Achievements() {
           />
         </div>
         {/* Rarity breakdown */}
-        <div className="flex gap-4 mt-3">
+        <div className="rarity-breakdown-row">
           {Object.entries(RARITY).map(([key, r]) => (
-            <div key={key} className="flex items-center gap-1.5">
+            <div key={key} className="rarity-breakdown-item">
               <div
-                className="w-2 h-2 rounded-full"
+                className="rarity-indicator-dot"
                 style={{ background: r.color }}
               />
-              <span className="text-[10px] text-muted">
+              <span className="rarity-breakdown-text">
                 {rarityCounts[key]} {r.label}
               </span>
             </div>
@@ -159,22 +156,18 @@ export default function Achievements() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex gap-2 overflow-x-auto pb-1">
+      <div className="tabs-scroll-row">
         {ACHIEVEMENT_CATEGORIES.map((cat) => {
           const isActive = activeTab === cat;
           return (
             <button
               key={cat}
               onClick={() => setActiveTab(cat)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition whitespace-nowrap ${
-                isActive
-                  ? "bg-gradient-to-r from-brand-500/15 to-brand-500/5 text-brand-700 dark:text-brand-300 ring-1 ring-brand-500/20"
-                  : "text-soft hover:bg-[var(--surface-hover)] glass"
-              }`}
+              className={`filter-tab-btn ${isActive ? "active" : "inactive glass"}`}
             >
               {cat}
               {cat !== "All" && (
-                <span className="ml-1.5 text-xs text-faint">
+                <span className="tab-count-badge">
                   {achievements.filter((a) =>
                     cat === "All" ? true : a.category === cat
                   ).length}
@@ -186,7 +179,7 @@ export default function Achievements() {
       </div>
 
       {/* Achievement Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="achievements-cards-grid">
         {filtered
           .sort((a, b) => {
             // Earned first, then by rarity
@@ -205,10 +198,10 @@ export default function Achievements() {
       </div>
 
       {filtered.length === 0 && (
-        <div className="card p-12 text-center">
+        <div className="card empty-achievements-card">
           <div className="text-4xl mb-3">🏆</div>
           <div className="font-medium">No achievements in this category yet</div>
-          <div className="text-sm text-muted mt-1">
+          <div className="text-muted">
             Keep building habits to unlock achievements!
           </div>
         </div>
@@ -222,10 +215,10 @@ export default function Achievements() {
         maxWidth="max-w-sm"
       >
         {selectedAchievement && (
-          <div className="text-center space-y-4">
+          <div className="detail-modal-body">
             <div
-              className={`w-20 h-20 rounded-2xl mx-auto flex items-center justify-center text-4xl ${
-                selectedAchievement.earnedAt ? "badge-shine" : "grayscale opacity-50"
+              className={`modal-badge ${
+                selectedAchievement.earnedAt ? "badge-shine" : "locked"
               }`}
               style={{
                 background: selectedAchievement.earnedAt
@@ -240,11 +233,11 @@ export default function Achievements() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold">
+              <h3 className="modal-achievement-title">
                 {selectedAchievement.title}
               </h3>
               <div
-                className="text-xs font-bold uppercase tracking-wider mt-1 inline-block px-2 py-0.5 rounded-full"
+                className="modal-rarity-badge"
                 style={{
                   background: `${RARITY[selectedAchievement.rarity].color}22`,
                   color: RARITY[selectedAchievement.rarity].color,
@@ -254,14 +247,14 @@ export default function Achievements() {
               </div>
             </div>
 
-            <p className="text-sm text-soft">
+            <p className="modal-achievement-desc">
               {selectedAchievement.description}
             </p>
 
             {selectedAchievement.earnedAt ? (
-              <div className="glass rounded-xl p-3">
-                <div className="text-xs text-muted mb-1">Earned on</div>
-                <div className="text-sm font-medium">
+              <div className="glass modal-detail-panel">
+                <div className="modal-detail-panel-label">Earned on</div>
+                <div className="modal-detail-panel-value">
                   {new Date(selectedAchievement.earnedAt).toLocaleDateString(
                     undefined,
                     { weekday: "long", month: "long", day: "numeric", year: "numeric" }
@@ -269,9 +262,9 @@ export default function Achievements() {
                 </div>
               </div>
             ) : (
-              <div className="space-y-3">
-                <div className="glass rounded-xl p-3">
-                  <div className="flex justify-between text-xs mb-2">
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                <div className="glass modal-detail-panel text-left">
+                  <div className="modal-progress-row">
                     <span className="text-muted">Progress</span>
                     <span className="font-medium">
                       {selectedAchievement.progress.current}/
@@ -279,11 +272,11 @@ export default function Achievements() {
                     </span>
                   </div>
                   <div
-                    className="w-full h-2 rounded-full overflow-hidden"
-                    style={{ background: "var(--chip-bg)" }}
+                    className="progress-bar-container"
+                    style={{ height: "0.5rem" }}
                   >
                     <div
-                      className="h-full rounded-full transition-all duration-500"
+                      className="progress-bar-fill"
                       style={{
                         width: `${Math.min(100, Math.round((selectedAchievement.progress.current / selectedAchievement.progress.target) * 100))}%`,
                         background: `linear-gradient(90deg, ${RARITY[selectedAchievement.rarity].color}88, ${RARITY[selectedAchievement.rarity].color})`,
@@ -292,11 +285,11 @@ export default function Achievements() {
                   </div>
                 </div>
                 {selectedAchievement.tip && (
-                  <div className="glass rounded-xl p-3 text-left">
-                    <div className="text-xs text-muted mb-1 flex items-center gap-1">
+                  <div className="glass modal-detail-panel text-left">
+                    <div className="modal-tip-header">
                       <Sparkles size={10} /> Tip
                     </div>
-                    <div className="text-sm text-soft">
+                    <div className="modal-achievement-desc">
                       {selectedAchievement.tip}
                     </div>
                   </div>

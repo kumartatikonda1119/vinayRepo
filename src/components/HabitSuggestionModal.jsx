@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Sparkles, Check, RefreshCw } from "lucide-react";
 import Modal from "./Modal.jsx";
 import api from "../api/axios.js";
+import "./HabitSuggestionModal.css";
 
 export default function HabitSuggestionModal({ open, onClose, onAccept }) {
   const [step, setStep] = useState(0);
@@ -49,8 +50,8 @@ export default function HabitSuggestionModal({ open, onClose, onAccept }) {
   return (
     <Modal open={open} onClose={close} title="AI Habit Suggestions" maxWidth="max-w-xl">
       {step === 0 && (
-        <div className="space-y-4">
-          <div className="text-sm text-soft">
+        <div className="suggestion-step-container">
+          <div className="suggestion-desc">
             Answer 3 quick questions and I'll suggest 3 personalised habits.
           </div>
           <div>
@@ -64,7 +65,7 @@ export default function HabitSuggestionModal({ open, onClose, onAccept }) {
               autoFocus
             />
           </div>
-          <div className="flex justify-end gap-2">
+          <div className="suggestion-actions end">
             <button className="btn-secondary" onClick={close}>
               Cancel
             </button>
@@ -80,7 +81,7 @@ export default function HabitSuggestionModal({ open, onClose, onAccept }) {
       )}
 
       {step === 1 && (
-        <div className="space-y-4">
+        <div className="suggestion-step-container">
           <div>
             <label className="label">
               When are you most productive during the day?
@@ -94,7 +95,7 @@ export default function HabitSuggestionModal({ open, onClose, onAccept }) {
               autoFocus
             />
           </div>
-          <div className="flex justify-between gap-2">
+          <div className="suggestion-actions between">
             <button className="btn-ghost" onClick={() => setStep(0)}>
               Back
             </button>
@@ -110,7 +111,7 @@ export default function HabitSuggestionModal({ open, onClose, onAccept }) {
       )}
 
       {step === 2 && (
-        <div className="space-y-4">
+        <div className="suggestion-step-container">
           <div>
             <label className="label">What habits have you struggled with?</label>
             <textarea
@@ -122,7 +123,7 @@ export default function HabitSuggestionModal({ open, onClose, onAccept }) {
               autoFocus
             />
           </div>
-          <div className="flex justify-between gap-2">
+          <div className="suggestion-actions between">
             <button className="btn-ghost" onClick={() => setStep(1)}>
               Back
             </button>
@@ -148,29 +149,29 @@ export default function HabitSuggestionModal({ open, onClose, onAccept }) {
       )}
 
       {step === 3 && (
-        <div className="space-y-3">
+        <div className="suggestion-step-container compact">
           {suggestions.length === 0 && (
             <div className="text-sm text-muted">
               No suggestions returned. Try again.
             </div>
           )}
           {suggestions.map((s, i) => (
-            <div key={i} className="glass rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-1 flex-wrap">
-                <span className="text-xl">{s.icon}</span>
-                <div className="font-medium">{s.name}</div>
+            <div key={i} className="suggestion-card glass">
+              <div className="suggestion-card-header">
+                <span className="suggestion-card-icon">{s.icon}</span>
+                <div className="suggestion-card-name">{s.name}</div>
                 <span className="chip">{s.category}</span>
                 <span className="chip">{s.frequency}</span>
               </div>
-              <div className="text-sm text-soft">{s.description}</div>
+              <div className="suggestion-card-desc">{s.description}</div>
               {s.reason && (
-                <div className="text-xs text-brand-700 dark:text-brand-300 mt-2 bg-brand-500/10 rounded-lg px-2 py-1.5">
+                <div className="suggestion-card-reason">
                   Why: {s.reason}
                 </div>
               )}
-              <div className="mt-3 flex justify-end">
+              <div className="suggestion-card-footer">
                 {added[i] ? (
-                  <div className="text-sm text-emerald-500 flex items-center gap-1">
+                  <div className="suggestion-added-badge">
                     <Check size={14} />
                     Added
                   </div>
@@ -185,7 +186,7 @@ export default function HabitSuggestionModal({ open, onClose, onAccept }) {
               </div>
             </div>
           ))}
-          <div className="flex justify-end">
+          <div className="suggestion-actions end">
             <button className="btn-secondary" onClick={close}>
               Done
             </button>

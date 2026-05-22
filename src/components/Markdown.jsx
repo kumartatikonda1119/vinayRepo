@@ -1,41 +1,42 @@
 import ReactMarkdown from "react-markdown";
+import "./Markdown.css";
 
 const components = {
-  p: (props) => <p className="mb-2 last:mb-0 leading-relaxed" {...props} />,
-  strong: (props) => <strong className="font-semibold" {...props} />,
-  em: (props) => <em className="italic" {...props} />,
+  p: (props) => <p className="markdown-p" {...props} />,
+  strong: (props) => <strong className="markdown-strong" {...props} />,
+  em: (props) => <em className="markdown-em" {...props} />,
   ul: (props) => (
-    <ul className="list-disc pl-5 my-2 space-y-1" {...props} />
+    <ul className="markdown-ul" {...props} />
   ),
   ol: (props) => (
-    <ol className="list-decimal pl-5 my-2 space-y-1" {...props} />
+    <ol className="markdown-ol" {...props} />
   ),
-  li: (props) => <li className="leading-relaxed" {...props} />,
+  li: (props) => <li className="markdown-li" {...props} />,
   h1: (props) => (
-    <h3 className="font-semibold text-base mt-3 mb-1" {...props} />
+    <h3 className="markdown-h" {...props} />
   ),
   h2: (props) => (
-    <h3 className="font-semibold text-base mt-3 mb-1" {...props} />
+    <h3 className="markdown-h" {...props} />
   ),
   h3: (props) => (
-    <h3 className="font-semibold text-base mt-3 mb-1" {...props} />
+    <h3 className="markdown-h" {...props} />
   ),
   blockquote: (props) => (
     <blockquote
-      className="border-l-2 border-brand-500/40 pl-3 my-2 italic text-soft"
+      className="markdown-blockquote"
       {...props}
     />
   ),
   code: ({ inline, ...props }) =>
     inline ? (
       <code
-        className="px-1.5 py-0.5 rounded text-[0.85em] font-mono"
+        className="markdown-code-inline"
         style={{ background: "var(--chip-bg)" }}
         {...props}
       />
     ) : (
       <code
-        className="block rounded-lg p-3 text-[0.85em] font-mono overflow-x-auto"
+        className="markdown-code-block"
         style={{ background: "var(--chip-bg)" }}
         {...props}
       />
@@ -45,11 +46,11 @@ const components = {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="text-brand-700 dark:text-brand-300 underline underline-offset-2"
+      className="markdown-a"
       {...rest}
     />
   ),
-  hr: () => <hr className="my-3 divider" />,
+  hr: () => <hr className="markdown-hr divider" />,
 };
 
 export default function Markdown({ children, className = "" }) {

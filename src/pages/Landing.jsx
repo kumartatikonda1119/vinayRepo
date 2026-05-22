@@ -14,6 +14,7 @@ import {
 import { useAuth } from "../context/AuthContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
 import OrbitingHabits from "../components/OrbitingHabits.jsx";
+import "./Landing.css";
 
 const features = [
   {
@@ -45,14 +46,14 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen">
-      <header className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
+      <header className="landing-header">
+        <div className="landing-logo">
+          <div className="landing-logo-icon">
             <Sparkles size={18} />
           </div>
-          <span className="font-semibold text-lg">AI Habit Tracker</span>
+          <span className="landing-logo-text">AI Habit Tracker</span>
         </div>
-        <nav className="flex items-center gap-2">
+        <nav className="landing-nav">
           <button
             onClick={toggle}
             className="btn-ghost p-2.5"
@@ -69,27 +70,27 @@ export default function Landing() {
         </nav>
       </header>
 
-      <section className="max-w-6xl mx-auto px-6 pt-10 md:pt-16 pb-16">
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-6 items-center">
-          <div className="lg:col-span-8 text-center lg:text-left order-2 lg:order-1">
-            <div className="inline-flex items-center gap-1.5 chip mb-5 bg-brand-500/15 text-brand-700 dark:text-brand-300">
+      <section className="landing-hero-section">
+        <div className="landing-hero-grid">
+          <div className="landing-hero-content">
+            <div className="landing-hero-badge chip bg-brand-500/15 text-brand-700 dark:text-brand-300">
               <Sparkles size={12} />
               AI-powered habit coach
             </div>
-            <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.08]">
+            <h1 className="landing-hero-title">
               Build habits that stick,
               <br />
               with an AI that actually{" "}
-              <span className="bg-gradient-to-br from-brand-400 to-brand-700 bg-clip-text text-transparent">
+              <span className="landing-gradient-text">
                 knows you
               </span>
               .
             </h1>
-            <p className="mt-5 text-soft text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+            <p className="landing-hero-desc">
               Track your habits, watch your streaks grow, and let AI turn your
               data into real encouragement — not generic motivation.
             </p>
-            <div className="mt-8 flex items-center justify-center lg:justify-start gap-3">
+            <div className="landing-hero-actions">
               <Link to="/register" className="btn-primary px-5 py-3 text-base">
                 Start free
                 <ArrowRight size={16} />
@@ -100,17 +101,17 @@ export default function Landing() {
             </div>
           </div>
 
-          <div className="lg:col-span-4 order-1 lg:order-2 flex justify-center lg:-mr-36">
+          <div className="landing-hero-orbit">
             <OrbitingHabits />
           </div>
         </div>
 
-        <div className="mt-14 md:mt-20 grid md:grid-cols-2 gap-6">
+        <div className="landing-demo-grid">
           <div className="card p-6 relative overflow-hidden">
-            <div className="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-300 mb-2">
+            <div className="landing-section-sub">
               Today
             </div>
-            <div className="space-y-3">
+            <div className="landing-demo-list">
               {[
                 { icon: "💧", name: "Drink 2L water", done: true, streak: 12 },
                 { icon: "📚", name: "Read 20 minutes", done: true, streak: 7 },
@@ -118,22 +119,18 @@ export default function Landing() {
               ].map((h, i) => (
                 <div
                   key={i}
-                  className={`flex items-center gap-3 rounded-xl glass p-3 ${h.done ? "ring-1 ring-brand-500/30" : ""
-                    }`}
+                  className={`landing-demo-item glass ${h.done ? "done" : ""}`}
                 >
-                  <span className="w-9 h-9 rounded-lg bg-brand-500/15 flex items-center justify-center">
+                  <span className="landing-demo-icon">
                     {h.icon}
                   </span>
-                  <div className="flex-1 text-sm font-medium">{h.name}</div>
-                  <div className="flex items-center gap-1 text-xs text-muted">
+                  <div className="landing-demo-name">{h.name}</div>
+                  <div className="landing-demo-streak">
                     <Flame size={12} className="text-orange-500" />
                     {h.streak}
                   </div>
                   <div
-                    className={`w-7 h-7 rounded-full flex items-center justify-center ${h.done
-                      ? "bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-md shadow-brand-500/30"
-                      : "border-2 border-[var(--surface-border)]"
-                      }`}
+                    className={`landing-demo-checkbox ${h.done ? "checked" : "unchecked"}`}
                   >
                     {h.done && <CheckCircle2 size={14} />}
                   </div>
@@ -143,15 +140,14 @@ export default function Landing() {
           </div>
 
           <div className="card p-6 relative overflow-hidden">
-            <div
-              className="absolute inset-0 pointer-events-none opacity-60"
+            <div className="landing-report-bg"
               style={{
                 background:
                   "radial-gradient(circle at 0% 0%, rgba(99,102,241,0.22), transparent 55%)",
               }}
             />
             <div className="relative">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-300 mb-2">
+              <div className="landing-section-sub flex items-center gap-2">
                 <Sparkles size={12} />
                 AI Weekly Report
               </div>
@@ -161,15 +157,15 @@ export default function Landing() {
                 you're strongest Mon–Wed. Try prepping shoes by the door tonight
                 to protect tomorrow's momentum. Proud of you.
               </p>
-              <div className="mt-6 grid grid-cols-3 gap-3">
+              <div className="landing-stats-grid">
                 {[
                   { label: "Streaks", value: "4" },
                   { label: "This week", value: "86%" },
                   { label: "Best ever", value: "28d" },
                 ].map((s) => (
-                  <div key={s.label} className="glass rounded-xl p-3">
-                    <div className="text-lg font-semibold">{s.value}</div>
-                    <div className="text-xs text-muted">{s.label}</div>
+                  <div key={s.label} className="landing-stat-card glass">
+                    <div className="landing-stat-value">{s.value}</div>
+                    <div className="landing-stat-label">{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -178,9 +174,9 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-6 py-16 border-t divider">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
+      <section className="landing-features-section">
+        <div className="landing-features-header">
+          <h2 className="landing-features-title">
             Everything you need, nothing you don't
           </h2>
           <p className="mt-3 text-soft">
@@ -188,10 +184,10 @@ export default function Landing() {
             actual data.
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="landing-features-grid">
           {features.map((f) => (
             <div key={f.title} className="card p-5">
-              <div className="w-10 h-10 rounded-xl bg-brand-500/15 text-brand-600 dark:text-brand-300 flex items-center justify-center mb-3">
+              <div className="landing-feature-icon">
                 <f.icon size={18} />
               </div>
               <div className="font-medium">{f.title}</div>
@@ -203,17 +199,16 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-6 py-16">
-        <div className="relative p-10 text-center rounded-2xl overflow-hidden bg-gradient-to-br from-brand-600 to-brand-900 text-white shadow-2xl shadow-brand-500/30">
-          <div
-            className="absolute inset-0 pointer-events-none opacity-50"
+      <section className="landing-cta-section">
+        <div className="landing-cta-card text-white">
+          <div className="landing-cta-bg"
             style={{
               background:
                 "radial-gradient(circle at 20% 10%, rgba(255,255,255,0.25), transparent 55%), radial-gradient(circle at 80% 80%, rgba(236,72,153,0.3), transparent 55%)",
             }}
           />
           <div className="relative">
-            <div className="flex items-center justify-center gap-2 mb-3">
+            <div className="landing-cta-icons">
               <Target size={18} />
               <Activity size={18} />
               <Sparkles size={18} />
@@ -227,7 +222,7 @@ export default function Landing() {
             </p>
             <Link
               to="/register"
-              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white text-brand-700 px-5 py-3 text-sm font-semibold hover:bg-brand-50 transition shadow-xl"
+              className="landing-cta-btn"
             >
               Create my account
               <ArrowRight size={16} />
@@ -236,7 +231,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <footer className="max-w-6xl mx-auto px-6 py-8 text-center text-xs text-faint border-t divider">
+      <footer className="landing-footer">
         Built with MERN · AI Habit Tracker © {new Date().getFullYear()}
       </footer>
     </div>

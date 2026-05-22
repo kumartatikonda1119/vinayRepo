@@ -1,6 +1,7 @@
 import { Check, Flame, Pencil, Trash2, Archive } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import "./TodayHabitCard.css";
 
 export default function TodayHabitCard({
   habit,
@@ -40,42 +41,39 @@ export default function TodayHabitCard({
 
   return (
     <div
-      className={`card p-4 flex items-center gap-4 transition ${completed
-        ? "ring-1 ring-brand-500/10 bg-brand-500/5 dark:bg-brand-500/3"
-        : ""
-        }`}
+      className={`card habit-card ${completed ? "completed" : ""}`}
     >
       <div
-        className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
+        className="habit-icon"
         style={{ background: `${habit.color}26`, color: habit.color }}
       >
         {habit.icon}
       </div>
 
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <div className="font-medium truncate">{habit.name}</div>
+      <div className="flex-1-min-w-0">
+        <div className="flex-items-center-gap-2">
+          <div className="font-medium-truncate">{habit.name}</div>
           <span className="chip">{habit.category}</span>
         </div>
         {habit.description && (
-          <div className="text-sm text-muted truncate mt-0.5">
+          <div className="habit-desc">
             {habit.description}
           </div>
         )}
       </div>
 
-      <div className="hidden sm:flex items-center gap-1 text-sm text-soft">
+      <div className="streak-container">
         <Flame
           size={16}
-          className={streak > 0 ? "text-orange-500" : "text-faint"}
+          className={streak > 0 ? "streak-icon-active" : "streak-icon-inactive"}
         />
-        <span className="font-medium">{streak}</span>
+        <span className="font-semibold">{streak}</span>
       </div>
 
       <div className="relative">
         <button
           ref={triggerRef}
-          className="btn-ghost p-2"
+          className="btn-ghost modal-close-btn"
           onClick={() => setMenu((m) => !m)}
           aria-label="Habit options"
         >
@@ -90,15 +88,15 @@ export default function TodayHabitCard({
           createPortal(
             <>
               <div
-                className="fixed inset-0 z-[100]"
+                className="portal-overlay"
                 onClick={() => setMenu(false)}
               />
               <div
-                className="fixed z-[110] glass-strong rounded-xl py-1 w-40 shadow-xl animate-fade-in"
+                className="portal-menu glass-strong animate-fade-in"
                 style={{ top: pos.top, left: pos.left }}
               >
                 <button
-                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-soft hover:bg-[var(--surface-hover)]"
+                  className="menu-item"
                   onClick={() => {
                     setMenu(false);
                     onEdit();
@@ -107,7 +105,7 @@ export default function TodayHabitCard({
                   <Pencil size={14} /> Edit
                 </button>
                 <button
-                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-soft hover:bg-[var(--surface-hover)]"
+                  className="menu-item"
                   onClick={() => {
                     setMenu(false);
                     onArchive();
@@ -117,7 +115,7 @@ export default function TodayHabitCard({
                   {habit.isArchived ? "Unarchive" : "Archive"}
                 </button>
                 <button
-                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-rose-500 hover:bg-rose-500/10"
+                  className="menu-item-danger"
                   onClick={() => {
                     setMenu(false);
                     onDelete();
@@ -133,10 +131,7 @@ export default function TodayHabitCard({
 
       <button
         onClick={onToggle}
-        className={`shrink-0 w-11 h-11 rounded-full flex items-center justify-center transition ${completed
-          ? "bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-lg shadow-brand-500/40 animate-pop"
-          : "bg-brand-100 border-2 border-border-brand-400 text-brand-400 hover:border-brand-400 hover:text-brand-400"
-          }`}
+        className={`toggle-btn ${completed ? "completed animate-pop" : "incomplete"}`}
         aria-label={completed ? "Mark incomplete" : "Mark complete"}
       >
         <Check size={20} strokeWidth={3} />

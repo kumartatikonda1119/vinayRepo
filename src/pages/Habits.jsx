@@ -18,6 +18,7 @@ import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import { CATEGORIES } from "../utils/constants.js";
 import { streakFromKeys } from "../utils/dateHelpers.js";
 import { format, subDays } from "date-fns";
+import "./Habits.css";
 
 export default function Habits() {
   const [habits, setHabits] = useState([]);
@@ -60,9 +61,10 @@ export default function Habits() {
     }
   };
 
-  useEffect(() => {
+  const useEffectFn = () => {
     load();
-  }, []);
+  };
+  useEffect(useEffectFn, []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -123,23 +125,19 @@ export default function Habits() {
   if (loading) return <LoadingSpinner full />;
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div className="habits-container animate-fade-in">
+      <div className="habits-header">
         <div>
-          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
-            All habits
-          </h1>
-          <p className="text-sm text-muted mt-0.5">
-            Manage every habit you've ever created.
-          </p>
+          <h1>All habits</h1>
+          <p>Manage every habit you've ever created.</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="habits-header-actions">
           <button
             className="btn-secondary"
             onClick={() => setSuggestOpen(true)}
           >
             <Sparkles size={14} />
-            <span className="hidden sm:inline">Suggest</span>
+            <span className="hide-mobile">Suggest</span>
           </button>
           <button
             className="btn-primary"
@@ -154,22 +152,19 @@ export default function Habits() {
         </div>
       </div>
 
-      <div className="card p-4">
-        <div className="flex flex-col md:flex-row gap-3 md:items-center">
-          <div className="relative flex-1">
-            <Search
-              size={16}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-faint pointer-events-none"
-            />
+      <div className="card filter-bar">
+        <div className="filter-row">
+          <div className="search-container">
+            <Search size={16} className="search-icon" />
             <input
-              className="input pl-9"
+              className="input search-input"
               placeholder="Search habits..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
           <select
-            className="input md:w-52"
+            className="input category-select"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
@@ -178,24 +173,16 @@ export default function Habits() {
               <option key={c}>{c}</option>
             ))}
           </select>
-          <div className="inline-flex rounded-xl glass overflow-hidden text-sm">
+          <div className="tab-group">
             <button
               onClick={() => setShowArchived(false)}
-              className={`px-3.5 py-2.5 font-medium transition ${
-                !showArchived
-                  ? "bg-brand-500/15 text-brand-700 dark:text-brand-300"
-                  : "text-soft hover:bg-[var(--surface-hover)]"
-              }`}
+              className={`tab-btn ${!showArchived ? "active" : ""}`}
             >
               Active · {activeCount}
             </button>
             <button
               onClick={() => setShowArchived(true)}
-              className={`px-3.5 py-2.5 font-medium transition border-l divider ${
-                showArchived
-                  ? "bg-brand-500/15 text-brand-700 dark:text-brand-300"
-                  : "text-soft hover:bg-[var(--surface-hover)]"
-              }`}
+              className={`tab-btn tab-btn-archived ${showArchived ? "active" : ""}`}
             >
               Archived · {archivedCount}
             </button>
@@ -204,16 +191,16 @@ export default function Habits() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="card p-10 text-center">
-          <div className="text-5xl mb-3">{showArchived ? "🗂️" : "🎯"}</div>
-          <div className="font-medium">
+        <div className="card empty-card">
+          <div className="empty-icon">{showArchived ? "🗂️" : "🎯"}</div>
+          <div className="empty-title">
             {showArchived
               ? "Nothing archived"
               : habits.length === 0
               ? "No habits yet"
               : "No habits match your filter"}
           </div>
-          <div className="text-sm text-muted mt-1">
+          <div className="empty-desc">
             {showArchived
               ? "Archived habits keep their history but stay out of your daily list."
               : habits.length === 0
@@ -222,7 +209,7 @@ export default function Habits() {
           </div>
           {!showArchived && habits.length === 0 && (
             <button
-              className="btn-primary mt-4"
+              className="btn-primary empty-btn"
               onClick={() => setFormOpen(true)}
             >
               <Plus size={14} />
@@ -231,66 +218,52 @@ export default function Habits() {
           )}
         </div>
       ) : (
-        <div className="space-y-2">
+        <div className="habits-list">
           {filtered.map((h) => {
             const keys = logsByHabit[h._id] || [];
             const { current, longest } = streakFromKeys(keys);
             return (
               <div
                 key={h._id}
-                className={`card p-4 flex items-center gap-4 ${
-                  h.isArchived ? "opacity-70" : ""
-                }`}
+                className={`card habit-row ${h.isArchived ? "archived" : ""}`}
               >
                 <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
+                  className="habit-icon-container"
                   style={{ background: `${h.color}26`, color: h.color }}
                 >
                   {h.icon}
                 </div>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <div className="font-medium truncate">{h.name}</div>
+                <div className="habit-info">
+                  <div className="habit-meta-row">
+                    <div className="habit-name">{h.name}</div>
                     <span className="chip">{h.category}</span>
                     <span className="chip">{h.frequency}</span>
                     {h.isArchived && (
-                      <span className="chip bg-amber-500/15 text-amber-700 dark:text-amber-300">
-                        Archived
-                      </span>
+                      <span className="chip chip-archived">Archived</span>
                     )}
                   </div>
                   {h.description && (
-                    <div className="text-sm text-muted truncate mt-0.5">
-                      {h.description}
-                    </div>
+                    <div className="habit-description">{h.description}</div>
                   )}
                 </div>
 
-                <div className="hidden sm:flex items-center gap-4 text-sm">
-                  <div
-                    className="flex items-center gap-1"
-                    title="Current streak"
-                  >
+                <div className="habit-stats-desktop">
+                  <div className="habit-stat-item" title="Current streak">
                     <Flame
                       size={14}
-                      className={current > 0 ? "text-orange-500" : "text-faint"}
+                      className={current > 0 ? "streak-orange" : "streak-faint"}
                     />
                     <span className="font-medium">{current}</span>
                   </div>
-                  <div
-                    className="flex items-center gap-1"
-                    title="Longest streak"
-                  >
-                    <Trophy size={14} className="text-amber-500" />
+                  <div className="habit-stat-item" title="Longest streak">
+                    <Trophy size={14} className="streak-amber" />
                     <span className="font-medium">{longest}</span>
                   </div>
-                  <div className="text-muted text-xs hidden md:block">
-                    {keys.length} total
-                  </div>
+                  <div className="habit-stat-total">{keys.length} total</div>
                 </div>
 
-                <div className="flex items-center gap-1">
+                <div className="habit-actions">
                   <button
                     className="btn-ghost p-2"
                     onClick={() => {
@@ -313,7 +286,7 @@ export default function Habits() {
                     )}
                   </button>
                   <button
-                    className="btn-ghost p-2 text-rose-500 hover:bg-rose-500/10 hover:text-rose-400"
+                    className="btn-ghost p-2 btn-delete"
                     onClick={() => setDeleteTarget(h)}
                     title="Delete"
                   >
@@ -351,11 +324,11 @@ export default function Habits() {
         title="Delete habit?"
         maxWidth="max-w-sm"
       >
-        <p className="text-sm text-soft">
+        <p className="delete-confirm-text">
           This will permanently delete <b>{deleteTarget?.name}</b> and all its
           history. This can't be undone.
         </p>
-        <div className="flex justify-end gap-2 mt-5">
+        <div className="modal-footer">
           <button
             className="btn-secondary"
             onClick={() => setDeleteTarget(null)}
@@ -363,7 +336,7 @@ export default function Habits() {
             Cancel
           </button>
           <button
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-rose-500 to-red-600 px-4 py-2.5 text-sm font-medium text-white hover:brightness-110 shadow-lg shadow-rose-500/30 transition"
+            className="btn-delete-confirm"
             onClick={() => remove(deleteTarget)}
           >
             Delete

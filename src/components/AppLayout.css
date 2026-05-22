@@ -1,0 +1,24 @@
+.layout-container {
+  min-height: 100vh;
+}
+
+.layout-main {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1.5rem;
+  padding-bottom: 6rem;
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .layout-main {
+    margin-left: 16rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2.5rem;
+    margin-right: auto;
+  }
+}
